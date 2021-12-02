@@ -10,7 +10,17 @@ public class Component extends Group{
     private ArrayList<Group> myComponents;
 
 
+
     private static final String[] wordsType = {"N", "P", "D", "A", "PONCT", "V", "CL", "PRO", "ADV", "C"};
+
+
+
+    public Component(String mySentence) {
+        this.createWord.addAll(Arrays.asList(wordsType));
+        this.myComponents = new ArrayList<Group>();
+        this.setMySentence(mySentence);
+        this.readString(getMySentence());
+    }
 
 
     // toString
@@ -40,12 +50,7 @@ public class Component extends Group{
         return wordsType;
     }
 
-    public Component(String mySentence) {
-        this.createWord.addAll(Arrays.asList(wordsType));
-        this.myComponents = new ArrayList<Group>();
-        this.setMySentence(mySentence);
-        this.readString(getMySentence());
-    }
+
 
     public void addComponent (Group group) {
         this.myComponents.add(group);
@@ -69,42 +74,56 @@ public class Component extends Group{
     }
 
     public void readString(String sentence) {
-        int pos = 0;
-        while (pos != sentence.length()) {
-            if (sentence.charAt(pos) == '(') {
-                if (this.getMyType() != null){
-                    String str = cutString(getMySentence(), pos);
-                    int x = 0;
-                    while (str.charAt(x) != ' '){
-                        ++x;
-                    }
-                    if (str.charAt(x+1) == '('){
-                        Component current_component = new Component(str);
-                        myComponents.add(current_component);
-                        pos = pos + current_component.getMySentence().length();
-                        //System.out.println(current_component.getMySentence());
+        String textType = new String();
+
+        // FORMAT PTB
+        if (sentence.charAt(0) == '('){
+            int pos = 0;
+            while (pos != sentence.length()) {
+                if (sentence.charAt(pos) == '(') {
+                    if (this.getMyType() != null){
+                        String str = cutString(getMySentence(), pos);
+                        int x = 0;
+                        while (str.charAt(x) != ' '){
+                            ++x;
+                        }
+                        if (str.charAt(x+1) == '('){
+                            Component current_component = new Component(str);
+                            myComponents.add(current_component);
+                            pos = pos + current_component.getMySentence().length();
+                            //System.out.println(current_component.getMySentence());
+                        }
+                        else {
+                            Word current_word = new Word(str);
+                            myComponents.add(current_word);
+                            pos = pos + current_word.getMySentence().length();
+                            //System.out.println(current_word.getMySentence());
+                        }
+
                     }
                     else {
-                        Word current_word = new Word(str);
-                        myComponents.add(current_word);
-                        pos = pos + current_word.getMySentence().length();
-                        //System.out.println(current_word.getMySentence());
+                        int x = pos+1;
+                        String typeToUse = new String();
+                        while (sentence.charAt(x) != ' ') {
+                            typeToUse = typeToUse + sentence.charAt(x);
+                            ++x;
+                        }
+                        this.setMyType(typeToUse);
+                        pos = pos + this.getMyType().length();
                     }
 
                 }
-                else {
-                    int x = pos+1;
-                    String typeToUse = new String();
-                    while (sentence.charAt(x) != ' ') {
-                        typeToUse = typeToUse + sentence.charAt(x);
-                        ++x;
-                    }
-                    this.setMyType(typeToUse);
-                    pos = pos + this.getMyType().length();
-                }
-
+                ++pos;
             }
-            ++pos;
         }
+        // FORMAT XML
+        else if (sentence.charAt(0) == '<'){
+            //Analyse XML
+        }
+        else {
+            //Analyse Fichier
+            // Try "ouvrir fichier" catch "exception ça ouvre pas"
+        }
+
     }
 }
