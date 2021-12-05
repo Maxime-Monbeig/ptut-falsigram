@@ -5,7 +5,7 @@ public class main {
 
     public static void main(String[] args) {
         String text_FTB = "(SENT (NP-SUJ (D Une) (N quinzaine) (PP (P de) (NP (N militaires) (AP (A libériens))))) (VN (V ont) (V été) (V transférés)) (PP-P_OBJ (P à) (NP (N Abidjan))) (PONCT .))" ;
-        String text_FTB_2 = "<SENT argument=\"ETR\" author=\"MINANGOY ROBERT\" date=\"1990-01-19\" nb=\"1015\" textID=\"456\">\n" +
+        String text_XML = "<SENT argument=\"ETR\" author=\"MINANGOY ROBERT\" date=\"1990-01-19\" nb=\"1015\" textID=\"456\">\n" +
                 "    <NP fct=\"SUJ\">\n" +
                 "        <w cat=\"D\" ee=\"D-ind-fs\" ei=\"Dfs\" lemma=\"un\" mph=\"fs\" subcat=\"ind\">Une</w>\n" +
                 "        <w cat=\"N\" ee=\"N-C-fs\" ei=\"NCfs\" lemma=\"quinzaine\" mph=\"fs\" subcat=\"C\">quinzaine</w>\n" +
@@ -32,12 +32,46 @@ public class main {
                 "    </PP>\n" +
                 "    <w cat=\"PONCT\" ee=\"PONCT-S\" ei=\"PONCTS\" lemma=\".\" subcat=\"S\">.</w>\n" +
                 "</SENT>";
-        //Component falsigram = new Component(text_FTB);
-        Component falsigram_2 = new Component(text_FTB_2);
-        //System.out.println(falsigram.toString());
+        String text_XML_2 = "<SENT argument=\"ECO\" author=\"LEMONDE\" date=\"1990-01-19\" nb=\"1093\" textID=\"467\">\n" +
+                "    <NP fct=\"SUJ\">\n" +
+                "        <w cat=\"D\" ee=\"D-def-fs\" ei=\"Dfs\" lemma=\"le\" mph=\"fs\" subcat=\"def\">La</w>\n" +
+                "        <w cat=\"N\" ee=\"N-C-fs\" ei=\"NCfs\" lemma=\"diminution\" mph=\"fs\" subcat=\"C\">diminution</w>\n" +
+                "    </NP>\n" +
+                "    <VN>\n" +
+                "        <w cat=\"V\" ee=\"V--P3s\" ei=\"VP3s\" lemma=\"paraître\" mph=\"P3s\" subcat=\"\">paraît</w>\n" +
+                "    </VN>\n" +
+                "    <w cat=\"PONCT\" ee=\"PONCT-W\" ei=\"PONCTW\" lemma=\",\" subcat=\"W\">,</w>\n" +
+                "    <w cat=\"ADV\" ee=\"ADV\" ei=\"ADV\" lemma=\"toutefois\">toutefois</w>\n" +
+                "    <w cat=\"PONCT\" ee=\"PONCT-W\" ei=\"PONCTW\" lemma=\",\" subcat=\"W\">,</w>\n" +
+                "    <AP fct=\"ATS\">\n" +
+                "        <w cat=\"ADV\" ee=\"ADV\" ei=\"ADV\" lemma=\"moins\">moins</w>\n" +
+                "        <w cat=\"A\" ee=\"A-qual-fs\" ei=\"Afs\" lemma=\"net\" mph=\"fs\" subcat=\"qual\">nette</w>\n" +
+                "    </AP>\n" +
+                "    <PP fct=\"MOD\">\n" +
+                "        <w cat=\"P\" ee=\"P\" ei=\"P\" lemma=\"en\">en</w>\n" +
+                "        <NP>\n" +
+                "            <w cat=\"N\" ee=\"N-P-fs\" ei=\"NPfs\" lemma=\"France\" mph=\"fs\" subcat=\"P\">France</w>\n" +
+                "        </NP>\n" +
+                "        <COORD>\n" +
+                "            <w cat=\"C\" ee=\"C-C\" ei=\"CC\" lemma=\"et\" subcat=\"C\">et</w>\n" +
+                "            <PP>\n" +
+                "                <w cat=\"P\" ee=\"P\" ei=\"P\" lemma=\"en\">en</w>\n" +
+                "                <NP>\n" +
+                "                    <w cat=\"N\" ee=\"N-P-fs\" ei=\"NPfs\" lemma=\"Italie\" mph=\"fs\" subcat=\"P\">Italie</w>\n" +
+                "                </NP>\n" +
+                "            </PP>\n" +
+                "        </COORD>\n" +
+                "    </PP>\n" +
+                "    <w cat=\"PONCT\" ee=\"PONCT-S\" ei=\"PONCTS\" lemma=\".\" subcat=\"S\">.</w>\n" +
+                "</SENT>";
+        Component falsigram = new Component(text_FTB);
+        Component falsigram_2 = new Component(text_XML);
+        Component falsigram_3 = new Component(text_XML_2);
+        System.out.println(falsigram.toString());
         String localDir = System.getProperty("user.dir");
         System.out.println(localDir);
-        //System.out.println(falsigram_2.toString());
+        System.out.println(falsigram_2.toString());
+        System.out.println(falsigram_3.toString());
     }
 }
 

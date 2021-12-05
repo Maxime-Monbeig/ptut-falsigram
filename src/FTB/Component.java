@@ -8,14 +8,10 @@ import java.util.*;
 
 public class Component extends Group{
     private final ArrayList<String> createWord = new ArrayList<String>();
-    private HashMap<String, String> xml_Attributes = new HashMap<>();
+
     private ArrayList<Group> myComponents;
 
-
-
     private static final String[] wordsType = {"N", "P", "D", "A", "PONCT", "V", "CL", "PRO", "ADV", "C"};
-
-
 
     public Component(String mySentence) {
         this.createWord.addAll(Arrays.asList(wordsType));
@@ -23,10 +19,6 @@ public class Component extends Group{
         this.setMySentence(mySentence);
         this.readString(getMySentence());
     }
-
-
-    // toString
-
 
     @Override
     public String toString() {
@@ -45,21 +37,15 @@ public class Component extends Group{
         return myComponents;
     }
 
-    public void setXml_Attributes(HashMap<String, String> xml_Attributes) {
-        this.xml_Attributes = xml_Attributes;
-    }
-
     public static String[] getWordsType() {
         return wordsType;
     }
-
-
 
     public void addComponent (Group group) {
         this.myComponents.add(group);
     }
 
-    // Fonction pour analyser seulement la partie du string nécessaire
+    // Fonction pour analyser seulement la partie du string nécessaire (FTB)
     public String cutStringFTB (String str, int pos){
         String newStr = "";
         int x = 0;
@@ -77,6 +63,7 @@ public class Component extends Group{
         return newStr;
     }
 
+    // Fonction pour analyser seulement la partie du string nécessaire (XML)
     public String cutStringXML (String str, int pos){
         String newStr = "";
         int x = 0;
@@ -99,6 +86,7 @@ public class Component extends Group{
         return newStr;
     }
 
+    // Analyser la phrase en entrée pour créer l'arbre
     public void readString(String sentence) {
         String textType = "";
 
@@ -150,7 +138,7 @@ public class Component extends Group{
                 if (Character.isUpperCase(sentence.charAt(pos))){
                     int x = pos;
                     String typeToUse = "";
-                    while (sentence.charAt(x) != ' ') {
+                    while (sentence.charAt(x) != ' ' && sentence.charAt(x) != '>') {
                         typeToUse = typeToUse + sentence.charAt(x);
                         ++x;
                     }
@@ -189,7 +177,7 @@ public class Component extends Group{
                     }
                     setXml_Attributes(caract);
                 }
-                else if (sentence.charAt(pos) == '<'){
+                else if (sentence.charAt(pos) == '<' && sentence.charAt(pos+1) != '/'){
                     String str = cutStringXML(sentence, pos);
                     if (str.charAt(1) == 'w'){
                         Word current_word = new Word(str);
