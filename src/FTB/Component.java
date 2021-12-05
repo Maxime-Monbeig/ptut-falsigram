@@ -8,7 +8,7 @@ import java.util.*;
 
 public class Component extends Group{
     private final ArrayList<String> createWord = new ArrayList<String>();
-    private ArrayList<HashMap<String, String>> xml_Attributes = new ArrayList<>();
+    private HashMap<String, String> xml_Attributes = new HashMap<>();
     private ArrayList<Group> myComponents;
 
 
@@ -45,7 +45,9 @@ public class Component extends Group{
         return myComponents;
     }
 
-
+    public void setXml_Attributes(HashMap<String, String> xml_Attributes) {
+        this.xml_Attributes = xml_Attributes;
+    }
 
     public static String[] getWordsType() {
         return wordsType;
@@ -83,7 +85,7 @@ public class Component extends Group{
                 ++x;
             }
             else if (str.charAt(pos) == '/') {
-                --x;
+                x = x - 2;
             }
             newStr = newStr + str.charAt(pos);
             ++pos;
@@ -134,9 +136,6 @@ public class Component extends Group{
                         }
                         this.setMyType(typeToUse);
                         pos = pos + x;
-
-
-
                     }
 
                 }
@@ -165,23 +164,46 @@ public class Component extends Group{
                         String param = "";
                         String value = "";
                         int x = pos;
-                        while (sentence.charAt(x) != '='){
-                            param = param + sentence.charAt(x);
-                            ++x;
-                        }
-                        while (sentence.charAt(x) != ' '){
-                            if (sentence.charAt(x) != '\"'){
-                                value = value + sentence.charAt(x);
+                        while (sentence.charAt(x) != '=' ){
+                            if (sentence.charAt(x) != ' '){
+                                param = param + sentence.charAt(x);
                             }
                             ++x;
+
                         }
+                        ++x;
+                        int count = 0;
+                        do {
+                            if (sentence.charAt(x) == '\"'){
+                                ++count;
+                                ++x;
+                            }
+                            else {
+                                value = value + sentence.charAt(x);
+                                ++x;
+                            }
+                        } while (count < 2);
 
                         caract.put(param, value);
-                        pos = pos + x;
+                        pos = x;
                     }
+                    setXml_Attributes(caract);
                 }
                 else if (sentence.charAt(pos) == '<'){
-
+                    String str = cutStringXML(sentence, pos);
+                    if (str.charAt(1) == 'w'){
+                        Word current_word = new Word(str);
+                        myComponents.add(current_word);
+                        pos = pos + current_word.getMySentence().length();
+                    }
+                    else {
+                        Component current_component = new Component(str);
+                        myComponents.add(current_component);
+                        pos = pos + current_component.getMySentence().length();
+                    }
+                }
+                else {
+                    ++pos;
                 }
 
             }
