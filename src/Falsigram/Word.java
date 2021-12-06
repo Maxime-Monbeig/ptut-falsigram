@@ -1,4 +1,4 @@
-package FTB;
+package Falsigram;
 
 import java.util.HashMap;
 import java.util.Map;

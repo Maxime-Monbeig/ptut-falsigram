@@ -1,4 +1,4 @@
-package FTB;
+package Falsigram;
 
 import java.lang.String;
 import java.util.HashMap;
@@ -39,6 +39,8 @@ public abstract class Group {
     public void setMySentence(String mySentence) {
         this.mySentence = mySentence;
     }
+
+    public abstract void readString(String sentence);
 
 
 }

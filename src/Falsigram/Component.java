@@ -1,20 +1,16 @@
-package FTB;
+package Falsigram;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.*;
 
 public class Component extends Group{
-    private final ArrayList<String> createWord = new ArrayList<String>();
+    //private final ArrayList<String> createWord = new ArrayList<String>();
 
     private ArrayList<Group> myComponents;
 
-    private static final String[] wordsType = {"N", "P", "D", "A", "PONCT", "V", "CL", "PRO", "ADV", "C"};
+    //private static final String[] wordsType = {"N", "P", "D", "A", "PONCT", "V", "CL", "PRO", "ADV", "C"};
 
     public Component(String mySentence) {
-        this.createWord.addAll(Arrays.asList(wordsType));
+        //this.createWord.addAll(Arrays.asList(wordsType));
         this.myComponents = new ArrayList<Group>();
         this.setMySentence(mySentence);
         this.readString(getMySentence());
@@ -29,16 +25,8 @@ public class Component extends Group{
         return display_sentence;
     }
 
-    public ArrayList<String> getCreateWord() {
-        return createWord;
-    }
-
     public ArrayList<Group> getMyComponents() {
         return myComponents;
-    }
-
-    public static String[] getWordsType() {
-        return wordsType;
     }
 
     public void addComponent (Group group) {
