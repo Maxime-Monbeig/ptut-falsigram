@@ -1,5 +1,7 @@
 package Falsigram;
 
+import java.util.*;
+
 public class GenerateError {
 
 
@@ -43,11 +45,18 @@ public class GenerateError {
 
         this.str = str;
         String word = "base ";
-        int i = 28;
+
+        List<Integer> list = Arrays.asList(4,14,17,28,38,42,46,57,59,67);
+        Random random = new Random();
+        int pos = random.nextInt(list.size());
+        int i = list.get(pos);
+
         StringBuffer string = new StringBuffer(str);
         string.insert(i, word);
-        return string;
 
+
+
+        return string;
 
     }//        - Rajouter des mots ---------- ajout du mot "base" a la position i
 
