@@ -74,7 +74,7 @@ public class main {
 //        System.out.println(falsigram_3.toString());
 
 
-        String txt = "Une quinzaine de militaires libériens ont été transférés à Abidjan" ;
+        String txt = "Une quinzaine de militaires libériens ont été transférés à Abidjan." ;
         GenerateError falsigram = new GenerateError(txt);
         System.out.println(falsigram.Insert(txt));
 

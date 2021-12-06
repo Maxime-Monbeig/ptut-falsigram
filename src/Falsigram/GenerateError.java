@@ -1,8 +1,5 @@
 package Falsigram;
 
-import java.util.Random;
-import java.util.regex.Pattern;
-
 public class GenerateError {
 
 
@@ -42,18 +39,17 @@ public class GenerateError {
     }//        - Doubler les mots
 
 
-    public String Insert(String str) {
+    public StringBuffer Insert(String str) {
 
         this.str = str;
+        String word = "base ";
+        int i = 28;
+        StringBuffer string = new StringBuffer(str);
+        string.insert(i, word);
+        return string;
 
 
-        String[] mots = Pattern.compile("\\w+" ).split(str);
-        Random r = new
-                Random();
-        String motAleatoire = mots[r.nextInt(mots.length)];
-
-        return motAleatoire;
-    }//        - Rajouter des mots
+    }//        - Rajouter des mots ---------- ajout du mot "base" a la position i
 
 
 
