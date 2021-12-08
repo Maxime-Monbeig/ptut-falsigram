@@ -75,10 +75,14 @@ public class main {
 
 
         String txt = "Une quinzaine de militaires libériens ont été transférés à Abidjan." ;
-        GenerateError falsigram = new GenerateError(txt);
-        System.out.println(falsigram.Insert(txt));
 
 
+
+        for (int i = 0; i < 10; ++i){
+            GenerateError falsigram = new GenerateError(txt, 1);
+            falsigram.Doublage();
+            System.out.println(falsigram.getStr_out());
+        }
 
 
     }

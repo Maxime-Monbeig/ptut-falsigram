@@ -7,7 +7,15 @@ public class GenerateError {
 
     private int num; // Pour choisir quelle type d'erreurs on va appliquer
     private String str; // Phrase d'entrée
-    private String word;
+    private String str_out; // Phrase de sortie
+
+    public String getStr_out() {
+        return str_out;
+    }
+
+    public void setStr_out(String str_out) {
+        this.str_out = str_out;
+    }
 
     public int getNum() {
         return num;
@@ -25,38 +33,92 @@ public class GenerateError {
         this.str = str;
     }
 
-    public String getWord() {
-        return word;
-    }
+    public void Doublage() {
 
-    public void setWord(String word) {
-        this.word = word;
-    }
+        // Stock des mots
+        int i = 0;
 
-    public void Doublage(String str) {
+        ArrayList<StringBuilder> stock = new ArrayList<>();
+        while (i < str.length()){
+            StringBuilder mot = new StringBuilder();
+            while ( i < str.length() && str.charAt(i) != ' ' && str.charAt(i) != '.'){
+                mot = mot.append(str.charAt(i));
+                ++i;
+            }
+            if (str.charAt(i) == '.' || str.charAt(i) == '!' || str.charAt(i) == '?'){
+                mot = mot.append(str.charAt(i));
+            }
+            ++i;
+            stock.add(mot);
+        }
 
-        this.str = str;
+        // Choix d'un mot dans la phrase
+        Random rand_str = new Random();
+        int rand_pos;
+        rand_pos = rand_str.nextInt(stock.size() - 1);
+        StringBuilder word = new StringBuilder(stock.get(rand_pos));
+        if (rand_pos == 0){
+            word.setCharAt(0, Character.toLowerCase(word.charAt(0)));
+        }
 
+        stock.add(rand_pos + 1, word);
+        String sentence = "";
+        for (StringBuilder str : stock){
+            sentence = sentence + str + ' ';
+        }
+
+        this.str_out = sentence;
 
     }//        - Doubler les mots
 
 
-    public StringBuffer Insert(String str) {
-
-        this.str = str;
-        String word = "base ";
-
-        List<Integer> list = Arrays.asList(4,14,17,28,38,42,46,57,59,67);
-        Random random = new Random();
-        int pos = random.nextInt(list.size());
-        int i = list.get(pos);
-
-        StringBuffer string = new StringBuffer(str);
-        string.insert(i, word);
+    public void Insert() {
 
 
+        // Stock des mots
+        int i = 0;
 
-        return string;
+        ArrayList<StringBuilder> stock = new ArrayList<>();
+        while (i < str.length()){
+            StringBuilder mot = new StringBuilder();
+            while ( i < str.length() && str.charAt(i) != ' ' && str.charAt(i) != '.'){
+                mot = mot.append(str.charAt(i));
+                ++i;
+            }
+            if (str.charAt(i) == '.' || str.charAt(i) == '!' || str.charAt(i) == '?'){
+                mot = mot.append(str.charAt(i));
+            }
+            ++i;
+            stock.add(mot);
+        }
+
+        // Choix d'un mot dans la phrase
+        Random rand_str = new Random();
+        int rand_pos;
+        rand_pos = rand_str.nextInt(stock.size() - 1);
+        StringBuilder word = new StringBuilder(stock.get(rand_pos));
+        if (rand_pos == 0){
+            word.setCharAt(0, Character.toLowerCase(word.charAt(0)));
+        }
+
+        // Position aléatoire
+        Random rand = new Random();
+        int for_rand;
+        for_rand = rand.nextInt(stock.size());
+
+        if (for_rand == 0){
+            word.setCharAt(0, Character.toUpperCase(word.charAt(0)));
+            stock.get(0).setCharAt(0, Character.toLowerCase(stock.get(0).charAt(0)));
+        }
+
+        // Ajout du mot
+        stock.add(for_rand, word);
+        String sentence = "";
+        for (StringBuilder str : stock){
+            sentence = sentence + str + ' ';
+        }
+
+        this.str_out = sentence;
 
     }//        - Rajouter des mots ---------- ajout du mot "base" a la position i
 
@@ -78,19 +140,10 @@ public class GenerateError {
 
     }//        - Supprimer des mots
 
-
-
-    public void Substitute(String str) {
+    public GenerateError(String str, int num) {
 
         this.str = str;
-
-
-    }//        - Remplacement des mots par Lemna
-
-
-    public GenerateError(String str) {
-
-        this.str = str;
+        this.num = num;
     }
 }
 
