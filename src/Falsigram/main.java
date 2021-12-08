@@ -81,7 +81,13 @@ public class main {
         for (int i = 0; i < 10; ++i){
             GenerateError falsigram = new GenerateError(txt, 1);
             falsigram.Doublage();
-            System.out.println(falsigram.getStr_out());
+            System.out.println("Doublage : \n" + falsigram.getStr_out());
+            falsigram.Move();
+            System.out.println("Move : \n" + falsigram.getStr_out());
+            falsigram.Delete();
+            System.out.println("Delete : \n" + falsigram.getStr_out());
+            falsigram.Insert();
+            System.out.println("Insert : \n" + falsigram.getStr_out() + '\n');
         }
 
 
