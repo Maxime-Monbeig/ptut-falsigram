@@ -41,119 +41,6 @@ public class GenerateError {
         this.str = str;
     }
 
-    public void Doublage() {
-        // Choix d'un mot dans la phrase
-        Random rand_str = new Random();
-        int rand_pos;
-        rand_pos = rand_str.nextInt(this.stock.size() - 1);
-        StringBuilder word = new StringBuilder(getStock().get(rand_pos));
-        if (rand_pos == 0){
-            word.setCharAt(0, Character.toLowerCase(word.charAt(0)));
-        }
-
-        this.stock.add(rand_pos + 1, word);
-        String sentence = "";
-        for (StringBuilder str : getStock()){
-            sentence = sentence + str + ' ';
-        }
-
-        this.str_out = sentence;
-
-    }//        - Doubler les mots
-
-
-    public void Insert() {
-        // Choix d'un mot dans la phrase
-        Random rand_str = new Random();
-        int rand_pos;
-        rand_pos = rand_str.nextInt(getStock().size() - 1);
-        StringBuilder word = new StringBuilder(getStock().get(rand_pos));
-        if (rand_pos == 0){
-            word.setCharAt(0, Character.toLowerCase(word.charAt(0)));
-        }
-
-        // Position aléatoire
-        Random rand = new Random();
-        int for_rand;
-        for_rand = rand.nextInt(getStock().size());
-
-        if (for_rand == 0){
-            word.setCharAt(0, Character.toUpperCase(word.charAt(0)));
-            this.stock.get(0).setCharAt(0, Character.toLowerCase(this.stock.get(0).charAt(0)));
-        }
-
-        // Ajout du mot
-        this.stock.add(for_rand, word);
-        String sentence = "";
-        for (StringBuilder str : this.stock){
-            sentence = sentence + str + ' ';
-        }
-
-        this.str_out = sentence;
-
-    }//        - Rajouter des mots ---------- ajout du mot "base" a la position i
-
-
-
-    public void Move() {
-        // Choix d'un mot dans la phrase
-        Random rand_str = new Random();
-        int rand_pos;
-        rand_pos = rand_str.nextInt(stock.size() - 1);
-        StringBuilder word = new StringBuilder(getStock().get(rand_pos));
-        if (rand_pos == 0){
-            word.setCharAt(0, Character.toLowerCase(word.charAt(0)));
-        }
-
-        // Retrait de ce mot
-        this.stock.remove(rand_pos);
-
-        // Position aléatoire
-        Random rand = new Random();
-        int for_rand;
-        for_rand = rand.nextInt(getStock().size());
-
-        if (for_rand == 0){
-            word.setCharAt(0, Character.toUpperCase(word.charAt(0)));
-            this.stock.get(0).setCharAt(0, Character.toLowerCase(this.stock.get(0).charAt(0)));
-        }
-
-        // Ajout du mot
-        this.stock.add(for_rand, word);
-
-        // Construction de la nouvelle phrase
-        String sentence = "";
-        for (StringBuilder str : stock){
-            sentence = sentence + str + ' ';
-        }
-
-        this.str_out = sentence;
-    }//        - Déplacer des mots
-
-
-
-    public void Delete() {
-        // Choix d'un mot dans la phrase
-        Random rand_str = new Random();
-        int rand_pos;
-        rand_pos = rand_str.nextInt(stock.size() - 1);
-        StringBuilder word = new StringBuilder(stock.get(rand_pos));
-        if (rand_pos == 0){
-            word.setCharAt(0, Character.toLowerCase(word.charAt(0)));
-        }
-
-        // Retrait de ce mot
-        stock.remove(rand_pos);
-
-        // Construction de la nouvelle phrase
-        String sentence = "";
-        for (StringBuilder str : stock){
-            sentence = sentence + str + ' ';
-        }
-
-        this.str_out = sentence;
-    }//        - Supprimer des mots
-
     public GenerateError(String str, int num) {
 
         // Stock des mots
@@ -174,8 +61,183 @@ public class GenerateError {
         this.str = str;
         this.num = num;
     }
+
+    public void Doublage() {
+        // Choix d'un mot dans la phrase
+        Random rand_str = new Random();
+        int rand_pos;
+        rand_pos = rand_str.nextInt(this.stock.size() - 1);
+        StringBuilder word = new StringBuilder(getStock().get(rand_pos));
+        if (rand_pos == 0){
+            word.setCharAt(0, Character.toLowerCase(word.charAt(0)));
+        }
+
+        ArrayList<StringBuilder> stock_current = new ArrayList<>(stock);
+
+        stock_current.add(rand_pos + 1, word);
+        String sentence = "";
+        for (StringBuilder str : stock_current){
+            sentence = sentence + str + ' ';
+        }
+
+        this.str_out = sentence;
+        stock_current = new ArrayList<>(stock);
+    }//        - Doubler les mots
+
+    public void DoublageLettre () {
+        // Choix d'un mot dans la phrase
+        Random rand_str = new Random();
+        int rand_pos;
+        rand_pos = rand_str.nextInt(this.stock.size() - 1);
+        StringBuilder word = new StringBuilder(getStock().get(rand_pos));
+
+
+        // Position aléatoire
+        Random rand = new Random();
+        int for_rand;
+        for_rand = rand.nextInt(word.length());
+
+        // Doubler la lettre
+        ArrayList<StringBuilder> stock_current = new ArrayList<>(stock);
+        stock_current.get(rand_pos).insert(for_rand+1, word.charAt(for_rand));
+
+        String sentence = "";
+        for (StringBuilder str : stock_current){
+            sentence = sentence + str + ' ';
+        }
+
+        this.str_out = sentence;
+        stock_current = new ArrayList<>(stock);
+    }
+
+    public void Insert() {
+        // Choix d'un mot dans la phrase
+        Random rand_str = new Random();
+        int rand_pos;
+        rand_pos = rand_str.nextInt(getStock().size() - 1);
+        StringBuilder word = new StringBuilder(getStock().get(rand_pos));
+        if (rand_pos == 0){
+            word.setCharAt(0, Character.toLowerCase(word.charAt(0)));
+        }
+
+        // Position aléatoire
+        Random rand = new Random();
+        int for_rand;
+        for_rand = rand.nextInt(getStock().size());
+        ArrayList<StringBuilder> stock_current = new ArrayList<>(stock);
+
+        if (for_rand == 0){
+            word.setCharAt(0, Character.toUpperCase(word.charAt(0)));
+            stock_current.get(0).setCharAt(0, Character.toLowerCase(stock_current.get(0).charAt(0)));
+        }
+
+        // Ajout du mot
+
+        stock_current.add(for_rand, word);
+        String sentence = "";
+        for (StringBuilder str : stock_current){
+            sentence = sentence + str + ' ';
+        }
+
+        this.str_out = sentence;
+        stock_current = new ArrayList<>(stock);
+    }//        - Rajouter des mots ---------- ajout du mot "base" a la position i
+
+    public void InsertLettre () {
+        // Choix d'un mot dans la phrase
+        Random rand_str = new Random();
+        int rand_pos;
+        ArrayList<StringBuilder> stock_current = (ArrayList<StringBuilder>)stock.clone();
+        rand_pos = rand_str.nextInt(stock_current.size() - 1);
+        StringBuilder word = new StringBuilder(stock_current.get(rand_pos));
+
+
+        // Position aléatoire
+        Random rand = new Random();
+        int for_rand;
+        for_rand = rand.nextInt(word.length());
+
+        Random rand_2 = new Random();
+        int for_rand_2;
+        for_rand_2 = rand.nextInt(word.length());
+
+        // Inserer la lettre
+
+        stock_current.get(rand_pos).insert(for_rand_2, word.charAt(for_rand));
+
+        String sentence = "";
+        for (StringBuilder str : stock_current){
+            sentence = sentence + str + ' ';
+        }
+
+        this.str_out = sentence;
+    }
+
+    public void Move() {
+        // Choix d'un mot dans la phrase
+        Random rand_str = new Random();
+        int rand_pos;
+        ArrayList<StringBuilder> stock_current = new ArrayList<>(stock);
+        rand_pos = rand_str.nextInt(stock_current.size() - 1);
+        StringBuilder word = new StringBuilder(stock_current.get(rand_pos));
+
+
+        // Retrait de ce mot
+        stock_current.remove(rand_pos);
+        if (rand_pos == 0){
+            word.setCharAt(0, Character.toLowerCase(word.charAt(0)));
+            stock_current.get(0).setCharAt(0, Character.toUpperCase(stock_current.get(0).charAt(0)));
+        }
+
+        // Position aléatoire
+        Random rand = new Random();
+        int for_rand;
+        for_rand = rand.nextInt(stock_current.size());
+        while (for_rand == rand_pos){
+            for_rand = rand.nextInt(stock_current.size());
+        }
+
+        if (for_rand == 0){
+            word.setCharAt(0, Character.toUpperCase(word.charAt(0)));
+            stock_current.get(0).setCharAt(0, Character.toLowerCase(stock_current.get(0).charAt(0)));
+        }
+
+        // Ajout du mot
+        stock_current.add(for_rand, word);
+
+        // Construction de la nouvelle phrase
+        String sentence = "";
+        for (StringBuilder str : stock_current){
+            sentence = sentence + str + ' ';
+        }
+
+        this.str_out = sentence;
+        stock_current = new ArrayList<>(stock);
+    }//        - Déplacer des mots
+
+
+
+    public void Delete() {
+        // Choix d'un mot dans la phrase
+        Random rand_str = new Random();
+        int rand_pos;
+        rand_pos = rand_str.nextInt(stock.size() - 1);
+        StringBuilder word = new StringBuilder(stock.get(rand_pos));
+        if (rand_pos == 0){
+            word.setCharAt(0, Character.toLowerCase(word.charAt(0)));
+        }
+
+        // Retrait de ce mot
+        ArrayList<StringBuilder> stock_current = new ArrayList<>(stock);
+        stock_current.remove(rand_pos);
+
+        // Construction de la nouvelle phrase
+        String sentence = "";
+        for (StringBuilder str : stock_current){
+            sentence = sentence + str + ' ';
+        }
+
+        this.str_out = sentence;
+        stock_current = new ArrayList<>(stock);
+    }//        - Supprimer des mots
 }
-
-
-
-
