@@ -1,5 +1,9 @@
 package Falsigram;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileReader;
 import java.util.*;
 
 public class Component extends Group{
@@ -23,6 +27,10 @@ public class Component extends Group{
             display_sentence = display_sentence + myComponent.toString();
         }
         return display_sentence;
+    }
+
+    public void addToSentence (char c){
+        this.setMySentence(getMySentence()+c);
     }
 
     public ArrayList<Group> getMyComponents() {
@@ -184,9 +192,29 @@ public class Component extends Group{
 
             }
         }
-        else {
+        else if (sentence.charAt(0) == '/') {
             //Analyse Fichier
+            try
+            {
+                File file = new File(sentence);
+                FileReader fileR = new FileReader(file);
+                BufferedReader fileBR = new BufferedReader(fileR);
 
+                int r = 0;
+                StringBuilder contenu = new StringBuilder();
+                while((r = fileBR.read())!=-1)
+                {
+                    contenu.append((char)r);
+                }
+                fileR.close();
+                fileBR.close();
+                this.setMySentence(contenu.toString());
+                this.readString(getMySentence());
+            }
+            catch(Exception e)
+            {
+                e.printStackTrace();
+            }
             // Try "ouvrir fichier" catch "exception ça ouvre pas"
         }
 
