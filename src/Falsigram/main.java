@@ -80,14 +80,22 @@ public class main {
 
         for (int i = 0; i < 10; ++i){
             GenerateError falsigram = new GenerateError(txt, 1);
-            falsigram.Doublage();
-            System.out.println("Doublage : \n" + falsigram.getStr_out());
-            falsigram.Move();
-            System.out.println("Move : \n" + falsigram.getStr_out());
-            falsigram.Delete();
-            System.out.println("Delete : \n" + falsigram.getStr_out());
-            falsigram.Insert();
-            System.out.println("Insert : \n" + falsigram.getStr_out() + '\n');
+            //falsigram.Doublage();
+            //System.out.println("Doublage : \n" + falsigram.getStr_out());
+            //falsigram.Move();
+            //System.out.println("Move : \n" + falsigram.getStr_out());
+            //falsigram.Delete();
+            //System.out.println("Delete : \n" + falsigram.getStr_out());
+            //falsigram.Insert();
+            //System.out.println("Insert : \n" + falsigram.getStr_out());
+            //falsigram.InsertLettre();
+            //System.out.println("Insert Lettre : \n" + falsigram.getStr_out());
+            //falsigram.MoveLettre();
+            //System.out.println("Move Lettre : \n" + falsigram.getStr_out());
+            falsigram.DeleteLettre();
+            System.out.println("Delete Lettre : \n" + falsigram.getStr_out());
+            //falsigram.DoublageLettre();
+            //System.out.println("Doublage Lettre : \n" + falsigram.getStr_out() + '\n');
         }
 
 
