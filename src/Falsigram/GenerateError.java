@@ -12,12 +12,7 @@ public class GenerateError {
 
     @Override
     public String toString() {
-        return "GenerateError{" +
-                "stock=" + stock +
-                ", num=" + num +
-                ", str='" + str + '\'' +
-                ", str_out='" + str_out + '\'' +
-                '}';
+        return str;
     }
 
     public List<List<Character>> getStock() {
@@ -63,8 +58,10 @@ public class GenerateError {
                 current_list.add(str.charAt(i));
                 ++i;
             }
-            this.stock.add(current_list);
-            if (str.charAt(i) == '.' || str.charAt(i) == '!' || str.charAt(i) == '?'){
+            if (current_list.size() != 0){
+                this.stock.add(current_list);
+            }
+            if (i < str.length() && (str.charAt(i) == '.' || str.charAt(i) == '!' || str.charAt(i) == '?')){
                 List<Character> current_list_2 = new ArrayList<Character>();
                 current_list_2.add(str.charAt(i));
                 this.stock.add(current_list_2);

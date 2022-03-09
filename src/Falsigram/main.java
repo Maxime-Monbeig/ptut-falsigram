@@ -19,7 +19,7 @@ public class main {
 //        System.out.println(falsigram.toString());
 //        System.out.println(falsigram_2.toString());
 //        System.out.println(falsigram_3.toString());
-        System.out.println(falsigram.getStr_final());
+//        System.out.println(falsigram.getStr_final());
 
 
         //String txt = "Une quinzaine de militaires libériens ont été transférés à Abidjan." ;

@@ -25,6 +25,7 @@
     </PP>
     <w cat="PONCT" ee="PONCT-S" ei="PONCTS" lemma="." subcat="S">.</w>
 </SENT>
+Ceci est une phrase
 <SENT argument="ETR" author="MINANGOY ROBERT" date="1990-01-19" nb="1015" textID="456">
     <NP fct="SUJ">
         <w cat="D" ee="D-ind-fs" ei="Dfs" lemma="un" mph="fs" subcat="ind">Une</w>
@@ -52,5 +53,33 @@
     </PP>
     <w cat="PONCT" ee="PONCT-S" ei="PONCTS" lemma="." subcat="S">.</w>
 </SENT>
+(SENT (NP-SUJ (D Une) (N quinzaine) (PP (P de) (NP (N militaires) (AP (A libériens))))) (VN (V ont) (V été) (V transférés)) (PP-P_OBJ (P à) (NP (N Abidjan))) (PONCT .))
 Ceci est une phrase         
 (SENT (NP-SUJ (D Une) (N quinzaine) (PP (P de) (NP (N militaires) (AP (A libériens))))) (VN (V ont) (V été) (V transférés)) (PP-P_OBJ (P à) (NP (N Abidjan))) (PONCT .))
+<SENT argument="ETR" author="MINANGOY ROBERT" date="1990-01-19" nb="1015" textID="456">
+    <NP fct="SUJ">
+        <w cat="D" ee="D-ind-fs" ei="Dfs" lemma="un" mph="fs" subcat="ind">Une</w>
+        <w cat="N" ee="N-C-fs" ei="NCfs" lemma="quinzaine" mph="fs" subcat="C">quinzaine</w>
+        <PP>
+            <w cat="P" ee="P" ei="P" lemma="de">de</w>
+            <NP>
+                <w cat="N" ee="N-C-mp" ei="NCmp" lemma="militaire" mph="mp" subcat="C">militaires</w>
+                <AP>
+                    <w cat="A" ee="A-qual-mp" ei="Amp" lemma="libérien" mph="mp" subcat="qual">libériens</w>
+                </AP>
+            </NP>
+        </PP>
+    </NP>
+    <VN>
+        <w cat="V" ee="V--P3p" ei="VP3p" lemma="avoir" mph="P3p" subcat="">ont</w>
+        <w cat="V" ee="V--Kms" ei="VKms" lemma="être" mph="Kms" subcat="">été</w>
+        <w cat="V" ee="V--Kmp" ei="VKmp" lemma="transférer" mph="Kmp" subcat="">transférés</w>
+    </VN>
+    <PP fct="P-OBJ">
+        <w cat="P" ee="P" ei="P" lemma="à">à</w>
+        <NP>
+            <w cat="N" ee="N-P-ms" ei="NPms" lemma="Abidjan" mph="ms" subcat="P">Abidjan</w>
+        </NP>
+    </PP>
+    <w cat="PONCT" ee="PONCT-S" ei="PONCTS" lemma="." subcat="S">.</w>
+</SENT>
