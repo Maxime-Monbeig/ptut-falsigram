@@ -52,14 +52,14 @@ public class GenerateError {
         this.str = str;
     }
 
-    public GenerateError(String str, int num) {
+    public GenerateError(String str) {
 
         // Stock des mots
         int i = 0;
 
         while (i < str.length()){
             List<Character> current_list = new ArrayList<Character>();
-            while ( i < str.length() && str.charAt(i) != ' ' && str.charAt(i) != '.' || str.charAt(i) == '!' || str.charAt(i) == '?'){
+            while ( i < str.length() && str.charAt(i) != ' ' && str.charAt(i) != '.' && str.charAt(i) != '!' && str.charAt(i) != '?'){
                 current_list.add(str.charAt(i));
                 ++i;
             }
@@ -73,7 +73,6 @@ public class GenerateError {
 
         }
         this.str = str;
-        this.num = num;
     }
 
     public void Doublage() {
