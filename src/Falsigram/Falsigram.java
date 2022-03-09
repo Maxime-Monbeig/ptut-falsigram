@@ -8,19 +8,19 @@ import java.util.ArrayList;
 public class Falsigram {
     private String str_init;
     private String str_final;
-    private ArrayList<Group> xml = new ArrayList<>();
-    private ArrayList<Group> ftb = new ArrayList<>();
+    private ArrayList<Component> xml = new ArrayList<>();
+    private ArrayList<Component> ftb = new ArrayList<>();
     private ArrayList<GenerateError> normal = new ArrayList<>();
 
     public ArrayList<GenerateError> getNormal() {
         return normal;
     }
 
-    public ArrayList<Group> getFtb() {
+    public ArrayList<Component> getFtb() {
         return ftb;
     }
 
-    public ArrayList<Group> getXml() {
+    public ArrayList<Component> getXml() {
         return xml;
     }
 

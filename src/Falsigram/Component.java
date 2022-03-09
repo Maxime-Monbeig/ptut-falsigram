@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileReader;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Component extends Group{
     //private final ArrayList<String> createWord = new ArrayList<String>();
@@ -57,6 +58,23 @@ public class Component extends Group{
         }while (x > 0);
 
         return newStr;
+    }
+
+    public List<String> getXmlTypes(){
+        ArrayList<String> xmlTypes = new ArrayList<>();
+        if (this.myComponents.size() != 0){
+            for (Group myComponent : myComponents) {
+                if (myComponent.getClass().equals(Word.class) && !xmlTypes.contains(myComponent.getMyType())){
+                    xmlTypes.add(myComponent.getMyType());
+                }
+                else if (myComponent.getClass().equals(Component.class)){
+                    xmlTypes.addAll(((Component) myComponent).getXmlTypes());
+                }
+            }
+        }
+
+        List<String> xmlTypes_toreturn = xmlTypes.stream().distinct().toList();
+        return xmlTypes_toreturn;
     }
 
     // Fonction pour analyser seulement la partie du string nécessaire (XML)
