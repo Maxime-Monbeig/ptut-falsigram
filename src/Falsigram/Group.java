@@ -1,6 +1,7 @@
 package Falsigram;
 
 import java.lang.String;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public abstract class Group {
@@ -42,5 +43,12 @@ public abstract class Group {
 
     public abstract void readString(String sentence);
 
+    public abstract ArrayList<Group> getMyComponents();
 
+    public abstract ArrayList<Group> getAllWords();
+
+    public abstract void doubleLettre (int pos);
+
+
+    public abstract String getWord();
 }

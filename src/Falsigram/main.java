@@ -3,6 +3,7 @@ package Falsigram;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Scanner;
 
 public class main {
@@ -45,10 +46,22 @@ public class main {
                         }
                         s = scanner.nextLine();
                     }while (!list.containsKey(s));
-                    System.out.println("Phrase choisie : \"" + list.get(s) + "\"\n" + "Choisissez un type de mot à modifier : ");
-                    for (String str : list.get(s).getXmlTypes()){
-                        System.out.println(str);
-                    }
+
+                    List<String> types = new ArrayList<>(list.get(s).getXmlTypes());
+                    String ss = "";
+
+                    do {
+                        System.out.println("Phrase choisie : \"" + list.get(s) + "\"\n" + "Choisissez un type de mot à modifier : ");
+                        for (String str : list.get(s).getXmlTypes()){
+                            System.out.println(str);
+                        }
+                        System.out.println("HASARD");
+                        types.add("HASARD");
+                        ss = scanner.nextLine();
+                    }while (!types.contains(ss));
+                    System.out.println(list.get(s).getRandomWordFromType(ss).toString());
+
+
                     break;
                 case "f":
                     list = new HashMap<>();

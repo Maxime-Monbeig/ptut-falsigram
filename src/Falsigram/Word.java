@@ -1,7 +1,6 @@
 package Falsigram;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class Word extends Group {
     private String word;
@@ -116,4 +115,38 @@ public class Word extends Group {
 
     }
 
+    @Override
+    public ArrayList<Group> getMyComponents() {
+        return null;
+    }
+
+    @Override
+    public ArrayList<Group> getAllWords() {
+        return null;
+    }
+
+    public void doubleLettre(int pos){
+
+
+        StringBuilder nouveauMot = new StringBuilder(this.getWord());
+        nouveauMot.insert(nouveauMot.charAt(pos+1), nouveauMot.charAt(pos));
+
+        this.setWord(nouveauMot.toString());
+    }
+
+    public void substituteLettre(){
+
+    }
+
+    public void deleteLettre(){
+
+    }
+
+    public void moveLettre(){
+
+    }
+
+    public void insertLettre(){
+
+    }
 }

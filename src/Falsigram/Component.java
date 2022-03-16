@@ -2,10 +2,8 @@ package Falsigram;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileReader;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class Component extends Group{
     //private final ArrayList<String> createWord = new ArrayList<String>();
@@ -237,4 +235,56 @@ public class Component extends Group{
         }
 
     }
+
+    public void modifierMot(Component mot, String action){
+        Random rand_str = new Random();
+        int rand_pos = rand_str.nextInt(mot.getWord().length()-1);
+        switch (action){
+            case "substitute":
+                break;
+            case "move":
+                break;
+            case "delete":
+                break;
+            case "double":
+                mot.doubleLettre(rand_pos);
+                break;
+            case "insert":
+                break;
+        }
+    }
+
+    public ArrayList<Group> getAllWords(){
+        ArrayList<Group> wordsList = new ArrayList<>();
+        for (Group g : this.getMyComponents()){
+            if (g.getClass().equals(Word.class)){
+                wordsList.add(g);
+            }
+            else {
+                wordsList.addAll(g.getAllWords());
+            }
+        }
+        return wordsList;
+    }
+
+    @Override
+    public void doubleLettre(int pos) {
+
+    }
+
+    @Override
+    public String getWord() {
+        return null;
+    }
+
+    public Group getRandomWordFromType (String type){
+        Random rand = new Random();
+        int rand_pos = rand.nextInt(this.getAllWords().size());
+        while (!this.getAllWords().get(rand_pos).getMyType().equals(type)){
+            rand_pos = rand.nextInt(this.getAllWords().size());
+        }
+        return this.getAllWords().get(rand_pos);
+    }
+
+
 }
