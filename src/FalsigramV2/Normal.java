@@ -11,11 +11,9 @@ public class Normal {
     private String str_out; // Phrase de sortie
 
     public Normal(String str) {
-
-        // Stock des mots
         this.initStock(str);
         this.str = str;
-
+        this.calculStr_out();
     }
 
     public void initStock (String str){
@@ -50,6 +48,6 @@ public class Normal {
 
     @Override
     public String toString() {
-        return str;
+        return str_out;
     }
 }

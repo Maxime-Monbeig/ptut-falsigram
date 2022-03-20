@@ -48,22 +48,22 @@ public class FalsigramV2 {
         this.chemin = chemin;
         this.Init();
         this.ReadStr();
-        System.out.println("Phrases normales \n");
+        System.out.println("\nPhrases normales");
         for (Normal ge : getNormal()){
             System.out.println(ge);
         }
-        System.out.println("Phrases xml \n");
+        System.out.println("\nPhrases xml");
         for (Xml g : getXml()){
             System.out.println(g);
         }
-        System.out.println("Phrases ftb \n");
+        System.out.println("\nPhrases ftb");
         for (Ftb g : getFtb()){
             System.out.println(g);
         }
     }
 
     public void Init(){
-        if (getChemin().charAt(0) == '/'){
+        if (getChemin().charAt(0) == '/' || (getChemin().charAt(0) == 'C' && getChemin().charAt(1) == ':')){
             this.FromFile();
         }
         else {
@@ -117,10 +117,15 @@ public class FalsigramV2 {
                 str.charAt(pos+1) != '!' &&
                 str.charAt(pos+1) != '?' &&
                 str.charAt(pos+1) != '<' &&
+                str.charAt(pos+1) != '\n' &&
                 !(str.charAt(pos+1) == '(' && str.charAt(pos+2) == 'S' && str.charAt(pos+3) == 'E'))){
             ++pos;
-            newStr = newStr + str.charAt(pos);
+            if (!(str.charAt(pos) == ' ' && newStr.charAt(newStr.length() - 1) == ' ')){
+                newStr = newStr + str.charAt(pos);
+            }
         }
+        ++pos;
+        newStr = newStr + str.charAt(pos);
 
         return newStr;
     }
@@ -138,7 +143,7 @@ public class FalsigramV2 {
                 ftb.add(new Ftb(ftb_to_add, false));
                 current = current + ftb_to_add.length();
             }
-            else if (getStr().charAt(current) != ' '){
+            else if (getStr().charAt(current) != ' ' && getStr().charAt(current) != '\n' && getStr().charAt(current) != '\r'){
                 String normal_to_add = cutStringNormal(getStr(), current);
                 normal.add(new Normal(normal_to_add));
                 current = current + normal_to_add.length() - 1;
@@ -154,7 +159,7 @@ public class FalsigramV2 {
             FileReader fileR = new FileReader(file);
             BufferedReader fileBR = new BufferedReader(fileR);
 
-            int r = 0;
+            int r;
             StringBuilder contenu = new StringBuilder();
             while((r = fileBR.read())!=-1)
             {
