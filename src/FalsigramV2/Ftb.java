@@ -1,7 +1,5 @@
 package FalsigramV2;
 
-import Falsigram.Component;
-import Falsigram.Word;
 
 import java.util.ArrayList;
 

@@ -1,8 +1,10 @@
 package FalsigramV2;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import Falsigram.Component;
+import Falsigram.Group;
+import Falsigram.Word;
+
+import java.util.*;
 
 public class Xml {
     private ArrayList<Xml> Composants = new ArrayList<>();
@@ -74,6 +76,48 @@ public class Xml {
 
     public void setXml_Attributes(HashMap<String, String> xml_Attributes) {
         this.xml_Attributes = xml_Attributes;
+    }
+
+    public boolean getIsAWord() {
+        return this.isAWord;
+    }
+
+    public ArrayList<Xml> getAllWords(){
+        ArrayList<Xml> wordsList = new ArrayList<>();
+        for (Xml g : this.getComposants()){
+            if (g.getIsAWord()){
+                wordsList.add(g);
+            }
+            else {
+                wordsList.addAll(g.getAllWords());
+            }
+        }
+        return wordsList;
+    }
+
+    public Xml getRandomWordFromType (String type){
+        Random rand = new Random();
+        int rand_pos = rand.nextInt(this.getAllWords().size());
+        while (!this.getAllWords().get(rand_pos).getMyType().equals(type)){
+            rand_pos = rand.nextInt(this.getAllWords().size());
+        }
+        return this.getAllWords().get(rand_pos);
+    }
+
+    public List<String> getXmlTypes(){
+        ArrayList<String> xmlTypes = new ArrayList<>();
+        if (this.getComposants().size() != 0){
+            for (Xml myComponent : getComposants()) {
+                if (myComponent.getIsAWord() && !xmlTypes.contains(myComponent.getMyType())){
+                    xmlTypes.add(myComponent.getMyType());
+                }
+                else if (!myComponent.getIsAWord()){
+                    xmlTypes.addAll((myComponent.getXmlTypes()));
+                }
+            }
+        }
+
+        return xmlTypes.stream().distinct().toList();
     }
 
     public String cutStringXML (String str, int pos){
