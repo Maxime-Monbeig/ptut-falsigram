@@ -18,21 +18,30 @@ public class Main {
         FalsigramV2 falsigram = new FalsigramV2(s);
 
         String question = "Choisissez un type de phrase à modifier : \n";
+        ArrayList<String> type_sent = new ArrayList<>();
         if (falsigram.getXml().size() != 0){
             question = question + "x -> xml\n";
+            type_sent.add("x");
         }
         if (falsigram.getFtb().size() != 0){
             question = question + "f -> ftb\n";
+            type_sent.add("f");
         }
         if (falsigram.getNormal().size() != 0){
             question = question + "n -> normal\n";
+            type_sent.add("n");
+        }
+        if (falsigram.getXml().size() != 0 || falsigram.getFtb().size() != 0 || falsigram.getNormal().size() != 0){
+            question = question + "a -> Mélange aléatoire de toutes les phrases\n";
+            type_sent.add("a");
         }
         question = question + "q -> quitter\n";
+        type_sent.add("q");
         do {
             do {
                 System.out.print(question);
                 s = scanner.nextLine();
-            } while (!s.equals("x") && !s.equals("f") && !s.equals("n") && !s.equals("q"));
+            } while (!type_sent.contains(s));
             switch (s) {
                 case "x" -> {
                     HashMap<String, Xml> listXml = new HashMap<>();
@@ -77,8 +86,8 @@ public class Main {
                             }
                         }
                         else if (choice_xml_sent.equals("r")) {
-                            choice_xml_sent = "";
-                            listXml.clear();
+                            // choice_xml_sent = "";
+                            // listXml.clear();
                             break;
                         }
 
@@ -109,110 +118,117 @@ public class Main {
                             System.out.println(i + 1 + " -> " + falsigram.getNormal().get(i));
                             listNormal.put(String.valueOf(i + 1), falsigram.getNormal().get(i));
                         }
+                        System.out.println("r -> Revenir à l'écran précédent");
                         choice_normal_sent = scanner.nextLine();
-                    } while (!listNormal.containsKey(choice_normal_sent));
 
-                    if (listNormal.containsKey(choice_normal_sent) && !choice_normal_sent.equals("r")){
-                        String choice_normal_type;
-                        do {
-                            System.out.println("Choisissez ce que vous voulez modifier :");
-                            System.out.println("m -> Modifier les mots");
-                            System.out.println("l -> Modifier les lettres");
-                            System.out.println("i -> Réinitialiser la phrase");
-                            choice_normal_type = scanner.nextLine();
-                        }while (!choice_normal_type.equals("m") && !choice_normal_type.equals("l") && !choice_normal_type.equals("i") && !choice_normal_type.equals("r"));
-
-                        String choice_normal_action;
-                        HashMap<String, String> actionNormal = new HashMap<>();
-                        if (choice_normal_type.equals("m")){
+                        if (listNormal.containsKey(choice_normal_sent)){
+                            String choice_normal_type;
                             do {
-                                System.out.println("Choisissez l'action à effectuer :");
-                                System.out.println("1 -> Doubler un mot");
-                                actionNormal.put("1", "doubler un mot");
-                                System.out.println("2 -> Supprimer un mot");
-                                actionNormal.put("2", "supprimer un mot");
-                                System.out.println("3 -> Déplacer un mot");
-                                actionNormal.put("3", "déplacer un mot");
-                                System.out.println("4 -> Echanger deux mots");
-                                actionNormal.put("4", "échanger deux mots");
-                                System.out.println("5 -> Ajouter un mot");
-                                actionNormal.put("5", "ajouter un mot");
-                                choice_normal_action = scanner.nextLine();
-                            }while (!actionNormal.containsKey(choice_normal_action));
+                                System.out.println("Choisissez ce que vous voulez modifier :");
+                                System.out.println("m -> Modifier les mots");
+                                System.out.println("l -> Modifier les lettres");
+                                System.out.println("i -> Réinitialiser la phrase");
+                                System.out.println("r -> Revenir à l'écran précédent");
+                                choice_normal_type = scanner.nextLine();
 
+                                String choice_normal_action;
+                                HashMap<String, String> actionNormal = new HashMap<>();
+                                switch (choice_normal_type) {
+                                    case "m":
+                                        do {
+                                            System.out.println("Choisissez l'action à effectuer :");
+                                            System.out.println("1 -> Doubler un mot");
+                                            actionNormal.put("1", "doubler un mot");
+                                            System.out.println("2 -> Supprimer un mot");
+                                            actionNormal.put("2", "supprimer un mot");
+                                            System.out.println("3 -> Déplacer un mot");
+                                            actionNormal.put("3", "déplacer un mot");
+                                            System.out.println("4 -> Echanger deux mots");
+                                            actionNormal.put("4", "échanger deux mots");
+                                            System.out.println("5 -> Ajouter un mot");
+                                            actionNormal.put("5", "ajouter un mot");
+                                            System.out.println("r -> Revenir à l'écran précédent");
+                                            choice_normal_action = scanner.nextLine();
 
-                            if (actionNormal.containsKey(choice_normal_action) && !choice_normal_action.equals("r")){
-                                String choice_normal_number;
-                                boolean isANumber;
-                                do {
-                                    isANumber = true;
-                                    System.out.println("Combien de fois voulez vous " + actionNormal.get(choice_normal_action) + " ?");
-                                    System.out.print("Nombre de fois : ");
-                                    choice_normal_number = scanner.nextLine();
+                                            if (actionNormal.containsKey(choice_normal_action)) {
+                                                String choice_normal_number;
+                                                boolean isANumber;
+                                                do {
+                                                    isANumber = true;
+                                                    System.out.println("Combien de fois voulez vous " + actionNormal.get(choice_normal_action) + " ? \n " +
+                                                            "Pour annuler le changement mettez \"0\"");
+                                                    System.out.print("Nombre de fois : ");
+                                                    choice_normal_number = scanner.nextLine();
 
-                                    int pos = 0;
+                                                    int pos = 0;
 
-                                    while (isANumber && pos < choice_normal_number.length()){
-                                        ArrayList<Character> numbers = new ArrayList<Character>(Arrays.asList('0', '1', '2', '3', '4', '5', '6', '7', '8', '9'));
-                                        if (!numbers.contains(choice_normal_number.charAt(pos))){
-                                            isANumber = false;
-                                            break;
-                                        }
-                                        pos = pos + 1;
-                                    }
-                                    if (choice_normal_action.equals("2") && isANumber && Integer.parseInt(choice_normal_number) >= falsigram.getNormal().get(Integer.parseInt(choice_normal_sent) - 1).getStock().size()){
-                                        System.out.println("Vous ne pouvez pas supprimer plus de " + falsigram.getNormal().get(Integer.parseInt(choice_normal_sent) - 1).getStock().size()
-                                                            + " mots sinon votre phrase sera vide !");
-                                        isANumber = false;
-                                    }
-                                    else if (!isANumber){
-                                        System.out.println("Ce n'est pas un nombre !");
-                                    }
+                                                    while (isANumber && pos < choice_normal_number.length()) {
+                                                        ArrayList<Character> numbers = new ArrayList<Character>(Arrays.asList('0', '1', '2', '3', '4', '5', '6', '7', '8', '9'));
+                                                        if (!numbers.contains(choice_normal_number.charAt(pos))) {
+                                                            isANumber = false;
+                                                            break;
+                                                        }
+                                                        pos = pos + 1;
+                                                    }
+                                                    if (choice_normal_action.equals("2") && isANumber && Integer.parseInt(choice_normal_number) >= falsigram.getNormal().get(Integer.parseInt(choice_normal_sent) - 1).getStock().size()) {
+                                                        System.out.println("Vous ne pouvez pas supprimer plus de " + falsigram.getNormal().get(Integer.parseInt(choice_normal_sent) - 1).getStock().size()
+                                                                + " mots sinon votre phrase sera vide !");
+                                                        isANumber = false;
+                                                    } else if (!isANumber) {
+                                                        System.out.println("Ce n'est pas un nombre !");
+                                                    }
 
-                                }while (!choice_normal_number.equals("r") && !isANumber);
+                                                } while (!choice_normal_number.equals("r") && !isANumber);
 
-                                switch (choice_normal_action) {
-                                    case "1":
-                                        for (int i = 0; i < Integer.parseInt(choice_normal_number); i++) {
-                                            falsigram.getNormal().get(Integer.parseInt(choice_normal_sent) - 1).DoublageMot();
-                                        }
+                                                if (Integer.parseInt(choice_normal_number) != 0) {
+                                                    switch (choice_normal_action) {
+                                                        case "1":
+                                                            for (int i = 0; i < Integer.parseInt(choice_normal_number); i++) {
+                                                                falsigram.getNormal().get(Integer.parseInt(choice_normal_sent) - 1).DoublageMot();
+                                                            }
+                                                            break;
+                                                        case "2":
+                                                            for (int i = 0; i < Integer.parseInt(choice_normal_number); i++) {
+                                                                falsigram.getNormal().get(Integer.parseInt(choice_normal_sent) - 1).SupprimerMot();
+                                                            }
+                                                            break;
+                                                        case "3":
+                                                            for (int i = 0; i < Integer.parseInt(choice_normal_number); i++) {
+                                                                falsigram.getNormal().get(Integer.parseInt(choice_normal_sent) - 1).DeplacerMot();
+                                                            }
+                                                            break;
+                                                        case "4":
+                                                            for (int i = 0; i < Integer.parseInt(choice_normal_number); i++) {
+                                                                falsigram.getNormal().get(Integer.parseInt(choice_normal_sent) - 1).EchangerMot();
+                                                            }
+                                                            break;
+                                                        case "5":
+                                                            for (int i = 0; i < Integer.parseInt(choice_normal_number); i++) {
+                                                                falsigram.getNormal().get(Integer.parseInt(choice_normal_sent) - 1).AjouterMot();
+                                                            }
+                                                            break;
+                                                    }
+                                                }
+                                            } else {
+                                                choice_normal_type = "";
+                                            }
+                                        } while (!actionNormal.containsKey(choice_normal_action) && !choice_normal_action.equals("r"));
                                         break;
-                                    case "2":
-                                        for (int i = 0; i < Integer.parseInt(choice_normal_number); i++) {
-                                            falsigram.getNormal().get(Integer.parseInt(choice_normal_sent) - 1).SupprimerMot();
-                                        }
-                                        break;
-                                    case "3":
-                                        for (int i = 0; i < Integer.parseInt(choice_normal_number); i++) {
-                                            falsigram.getNormal().get(Integer.parseInt(choice_normal_sent) - 1).DeplacerMot();
-                                        }
-                                        break;
-                                    case "4":
-                                        for (int i = 0; i < Integer.parseInt(choice_normal_number); i++) {
-                                            falsigram.getNormal().get(Integer.parseInt(choice_normal_sent) - 1).EchangerMot();
-                                        }
-                                        break;
-                                    case "5":
-                                        for (int i = 0; i < Integer.parseInt(choice_normal_number); i++) {
-                                            falsigram.getNormal().get(Integer.parseInt(choice_normal_sent) - 1).AjouterMot();
-                                        }
-                                        break;
+                                    case "l":
 
+                                        break;
+                                    case "i":
+                                        falsigram.getNormal().get(Integer.parseInt(choice_normal_sent) - 1).initStock(falsigram.getNormal().get(Integer.parseInt(choice_normal_sent) - 1).getStr());
+                                        falsigram.getNormal().get(Integer.parseInt(choice_normal_sent) - 1).calculStr_out();
+                                        break;
+                                    case "r":
+                                        choice_normal_sent = "";
+                                        break;
                                 }
-                            }
+                            }while (!choice_normal_type.equals("m") && !choice_normal_type.equals("l") && !choice_normal_type.equals("i") && !choice_normal_type.equals("r"));
 
                         }
-                        else if (choice_normal_type.equals("l")){
-
-                        }
-                        else if (choice_normal_type.equals("i")){
-                            falsigram.getNormal().get(Integer.parseInt(choice_normal_sent) - 1).initStock(falsigram.getNormal().get(Integer.parseInt(choice_normal_sent) - 1).getStr());
-                            falsigram.getNormal().get(Integer.parseInt(choice_normal_sent) - 1).calculStr_out();
-                        }
-                        else {
-
-                        }
-                    }
+                    } while (!listNormal.containsKey(choice_normal_sent) && !choice_normal_sent.equals("r"));
                 }
                 default -> {
                 }
