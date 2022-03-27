@@ -1,9 +1,6 @@
 package FalsigramV2;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Random;
+import java.util.*;
 
 public class Normal {
     private ArrayList<StringBuilder> stock;
@@ -55,6 +52,12 @@ public class Normal {
             if (i < str.length() && (str.charAt(i) == '.' || str.charAt(i) == '!' || str.charAt(i) == '?' || str.charAt(i) == ',' || str.charAt(i) == '(' || str.charAt(i) == ')')){
                 StringBuilder stringBuilder1 = new StringBuilder();
                 stringBuilder1.append(str.charAt(i));
+
+                while ( i+1 != str.length() &&str.charAt(i+1) == '.'){
+                    i++;
+                    stringBuilder1.append(str.charAt(i));
+                }
+
                 this.stock.add(stringBuilder1);
             }
             i++;
@@ -70,11 +73,17 @@ public class Normal {
         str_out = str_sortie;
     }
 
+    public AbstractMap.SimpleEntry<Integer, StringBuilder> RandomWordFromStock(){
+        Integer pos = rand.nextInt(this.getStock().size());
+        return new AbstractMap.SimpleEntry<>(pos, new StringBuilder(getStock().get(pos)));
+    }
+
     public void DoublageMot() {
         // Choix d'un mot dans la phrase
 
-        int word_pos = rand.nextInt(this.stock.size()-1);
-        StringBuilder word = new StringBuilder(getStock().get(word_pos));
+        AbstractMap.SimpleEntry<Integer, StringBuilder> word_info = this.RandomWordFromStock();
+        StringBuilder word = new StringBuilder(word_info.getValue());
+        int word_pos = word_info.getKey();
         if (word_pos == 0){
             word.setCharAt(0, Character.toLowerCase(word.charAt(0)));
         }
@@ -86,6 +95,10 @@ public class Normal {
         setStock(stock_current);
         this.calculStr_out();
     }//        - Doubler un mot
+
+    public void DoublageLettre(StringBuilder word) {
+        int lettre_pos = rand.nextInt(word.length());
+    }
 
     public void SupprimerMot() {
         // Choix d'un mot dans la phrase
@@ -102,8 +115,14 @@ public class Normal {
     public void AjouterMot() {
         // Choix d'un mot dans la phrase
 
-        int word_pos = rand.nextInt(this.stock.size());
-        StringBuilder word = new StringBuilder(getStock().get(word_pos));
+        AbstractMap.SimpleEntry<Integer, StringBuilder> word_info = this.RandomWordFromStock();
+        StringBuilder word = new StringBuilder(word_info.getValue());
+        int word_pos = word_info.getKey();
+
+        while (word.toString().equals(".") || word.toString().equals("!") || word.toString().equals("?") || word.toString().equals(")") || word.toString().equals("(") || word.toString().equals("\"")){
+            word_info = this.RandomWordFromStock();
+            word = word_info.getValue();
+        }
 
         // Choix d'une position pour ajouter le mot
         int ajout_pos = rand.nextInt(this.stock.size());
@@ -117,6 +136,7 @@ public class Normal {
         }
         else if (ajout_pos == 0){
             word.setCharAt(0, Character.toUpperCase(word.charAt(0)));
+            getStock().get(0).setCharAt(0, Character.toLowerCase(getStock().get(0).charAt(0)));
         }
 
         ArrayList<StringBuilder> stock_current = new ArrayList<>(stock);
@@ -131,15 +151,18 @@ public class Normal {
     public void EchangerMot() {
         // Choix d'un mot dans la phrase
 
-        int word_pos = rand.nextInt(this.stock.size());
-        StringBuilder word = new StringBuilder(getStock().get(word_pos));
+        AbstractMap.SimpleEntry<Integer, StringBuilder> word_info = this.RandomWordFromStock();
+        StringBuilder word = new StringBuilder(word_info.getValue());
+        int word_pos = word_info.getKey();
 
         // Choix d'un deuxième mot dans la phrase
-        int echange_pos = rand.nextInt(this.stock.size());
+        AbstractMap.SimpleEntry<Integer, StringBuilder> echange_info = this.RandomWordFromStock();
+        int echange_pos = echange_info.getKey();
         while (echange_pos == word_pos){
-            echange_pos = rand.nextInt(this.stock.size());
+            echange_info = this.RandomWordFromStock();
+            echange_pos = echange_info.getKey();
         }
-        StringBuilder echange = new StringBuilder(getStock().get(echange_pos));
+        StringBuilder echange = new StringBuilder(echange_info.getValue());
 
         // Ajustement des majuscules en début de mot
         if (word_pos == 0){
@@ -165,8 +188,9 @@ public class Normal {
     public void DeplacerMot() {
         // Choix d'un mot dans la phrase
 
-        int word_pos = rand.nextInt(this.stock.size());
-        StringBuilder word = new StringBuilder(getStock().get(word_pos));
+        AbstractMap.SimpleEntry<Integer, StringBuilder> word_info = this.RandomWordFromStock();
+        StringBuilder word = new StringBuilder(word_info.getValue());
+        int word_pos = word_info.getKey();
 
         // Choix d'une position pour déplacer le mot
         int new_pos = rand.nextInt(this.stock.size());
@@ -176,15 +200,22 @@ public class Normal {
 
         if (word_pos == 0){
             word.setCharAt(0, Character.toLowerCase(word.charAt(0)));
+            getStock().get(1).setCharAt(0, Character.toUpperCase(getStock().get(1).charAt(0)));
         }
         else if (new_pos == 0){
             word.setCharAt(0, Character.toUpperCase(word.charAt(0)));
+            getStock().get(0).setCharAt(0, Character.toLowerCase(getStock().get(0).charAt(0)));
         }
 
         ArrayList<StringBuilder> stock_current = new ArrayList<>(stock);
 
         stock_current.add(new_pos, word);
-        stock_current.remove(word_pos);
+        if (new_pos > word_pos){
+            stock_current.remove(word_pos);
+        }
+        else {
+            stock_current.remove(word_pos+1);
+        }
 
         this.setStock(stock_current);
         this.calculStr_out();
