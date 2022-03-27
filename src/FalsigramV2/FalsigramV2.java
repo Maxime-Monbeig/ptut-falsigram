@@ -123,9 +123,15 @@ public class FalsigramV2 {
             if (!(str.charAt(pos) == ' ' && newStr.charAt(newStr.length() - 1) == ' ')){
                 newStr = newStr + str.charAt(pos);
             }
+
         }
         ++pos;
         newStr = newStr + str.charAt(pos);
+
+        while (str.charAt(pos + 1) == '.'){
+            ++pos;
+            newStr = newStr + str.charAt(pos);
+        }
 
         return newStr;
     }
