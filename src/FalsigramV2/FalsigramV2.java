@@ -136,6 +136,10 @@ public class FalsigramV2 {
         return newStr;
     }
 
+    public int getGlobalSize(){
+        return this.getNormal().size() + this.getXml().size() + this.getFtb().size();
+    }
+
     public void ReadStr(){
         int current = 0;
         while (current < getStr().length()){
