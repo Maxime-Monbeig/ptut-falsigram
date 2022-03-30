@@ -4,9 +4,7 @@ import Falsigram.Component;
 import Falsigram.GenerateError;
 import Falsigram.Group;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
+import java.io.*;
 import java.util.ArrayList;
 
 public class FalsigramV2 {
@@ -63,7 +61,7 @@ public class FalsigramV2 {
     }
 
     public void Init(){
-        if (getChemin().charAt(0) == '/' || (getChemin().charAt(0) == 'C' && getChemin().charAt(1) == ':')){
+        if (getChemin().charAt(0) == '/' || (getChemin().charAt(2) == '\\' && getChemin().charAt(1) == ':')){
             this.FromFile();
         }
         else {
@@ -118,6 +116,7 @@ public class FalsigramV2 {
                 str.charAt(pos+1) != '?' &&
                 str.charAt(pos+1) != '<' &&
                 str.charAt(pos+1) != '\n' &&
+                str.charAt(pos+1) != '\r' &&
                 !(str.charAt(pos+1) == '(' && str.charAt(pos+2) == 'S' && str.charAt(pos+3) == 'E'))){
             ++pos;
             if (!(str.charAt(pos) == ' ' && newStr.charAt(newStr.length() - 1) == ' ')){
@@ -126,7 +125,9 @@ public class FalsigramV2 {
 
         }
         ++pos;
-        newStr = newStr + str.charAt(pos);
+        if (str.charAt(pos) != '\r' && str.charAt(pos) != '\n'){
+            newStr = newStr + str.charAt(pos);
+        }
 
         while (str.charAt(pos + 1) == '.'){
             ++pos;
@@ -181,6 +182,40 @@ public class FalsigramV2 {
         }
         catch(Exception e)
         {
+            e.printStackTrace();
+        }
+    }
+
+    public void ToFile(String filename, boolean isAFile){
+        try {
+            StringBuilder sortie = new StringBuilder();
+            if (!isAFile){
+                sortie = new StringBuilder(chemin);
+                while (sortie.charAt(sortie.length() - 1) != '\\' && sortie.charAt(sortie.length() - 1) != '/'){
+                    sortie.setLength(sortie.length() - 1);
+                }
+                sortie.append(filename);
+            }
+            else {
+                sortie = new StringBuilder(filename);
+            }
+            File file = new File(sortie.toString());
+
+            if (!file.exists()){
+                file.createNewFile();
+            }
+
+            FileWriter fw = new FileWriter(file.getAbsoluteFile());
+            BufferedWriter bw = new BufferedWriter(fw);
+            if (getNormal().size() != 0){
+                for (Normal n : getNormal()){
+                    bw.write(n.toString() + '\n');
+                }
+            }
+            bw.close();
+            System.out.println("fin");
+        }
+        catch (Exception e){
             e.printStackTrace();
         }
     }
