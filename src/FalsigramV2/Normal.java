@@ -4,15 +4,13 @@ import java.util.*;
 
 public class Normal {
     private ArrayList<StringBuilder> stock;
-    private int num; // Pour choisir quelle type d'erreurs on va appliquer
     private String str; // Phrase d'entrée
     private String str_out; // Phrase de sortie
-    private final Random rand = new Random();
+    private static final Random rand = new Random();
 
     public Normal(String str) {
-        this.initStock(str);
         this.str = str;
-        this.calculStr_out();
+        this.initStock(str);
     }
 
     public ArrayList<StringBuilder> getStock() {
@@ -31,9 +29,13 @@ public class Normal {
         return str_out;
     }
 
+    public void addToStock(StringBuilder str, int pos){
+        this.getStock().add(pos, str);
+    }
+
     @Override
     public String toString() {
-        return str_out;
+        return this.getStr_out();
     }
 
     public void initStock (String str){
@@ -53,7 +55,7 @@ public class Normal {
                 StringBuilder stringBuilder1 = new StringBuilder();
                 stringBuilder1.append(str.charAt(i));
 
-                while ( i+1 != str.length() &&str.charAt(i+1) == '.'){
+                while ( str.charAt(i) == '.' && i+1 != str.length() &&str.charAt(i+1) == '.'){
                     i++;
                     stringBuilder1.append(str.charAt(i));
                 }
@@ -63,6 +65,7 @@ public class Normal {
             i++;
 
         }
+        this.calculStr_out();
     }
 
     public void calculStr_out(){
@@ -88,22 +91,37 @@ public class Normal {
             word.setCharAt(0, Character.toLowerCase(word.charAt(0)));
         }
 
-        ArrayList<StringBuilder> stock_current = new ArrayList<>(stock);
-
-        stock_current.add(word_pos + 1, word);
-
-        setStock(stock_current);
+        this.addToStock(word, word_pos+1);
         this.calculStr_out();
     }//        - Doubler un mot
 
-    public void DoublageLettre(StringBuilder word) {
+    public void DoublageLettre(AbstractMap.SimpleEntry<Integer, StringBuilder> word_info) {
+        StringBuilder word = word_info.getValue();
         int lettre_pos = rand.nextInt(word.length());
+
+        if (lettre_pos == 0 && word_info.getKey() == 0){
+            word.insert(lettre_pos+1, Character.toLowerCase(word.charAt(lettre_pos)));
+        }
+        else {
+            word.insert(lettre_pos+1, word.charAt(lettre_pos));
+        }
+
+        this.getStock().set(word_info.getKey(), word);
+        this.calculStr_out();
     }
 
     public void SupprimerMot() {
         // Choix d'un mot dans la phrase
 
-        int word_pos = rand.nextInt(this.stock.size());
+        int word_pos = rand.nextInt(this.getStock().size());
+
+        while (this.getStock().get(word_pos).length() == 1){
+            word_pos = rand.nextInt(this.getStock().size());
+        }
+
+        if (word_pos == 0){
+            this.getStock().get(1).setCharAt(0, Character.toUpperCase(this.getStock().get(1).charAt(0)));
+        }
 
         // Suppression du mot
         this.getStock().remove(word_pos);
@@ -112,6 +130,28 @@ public class Normal {
         this.calculStr_out();
     }//        - Supprimer un mot
 
+    public void SupprimerLettre(AbstractMap.SimpleEntry<Integer, StringBuilder> word_info) {
+        StringBuilder word = word_info.getValue();
+
+        while (word.length() == 1){
+            word_info = this.RandomWordFromStock();
+            word = word_info.getValue();
+        }
+
+        int lettre_pos = rand.nextInt(word.length());
+
+        if (lettre_pos == 0 && word_info.getKey() == 0){
+            word.deleteCharAt(lettre_pos);
+            word.setCharAt(lettre_pos, Character.toUpperCase(word.charAt(lettre_pos)));
+        }
+        else {
+            word.deleteCharAt(lettre_pos);
+        }
+
+        this.getStock().set(word_info.getKey(), word);
+        this.calculStr_out();
+    }
+
     public void AjouterMot() {
         // Choix d'un mot dans la phrase
 
@@ -119,15 +159,15 @@ public class Normal {
         StringBuilder word = new StringBuilder(word_info.getValue());
         int word_pos = word_info.getKey();
 
-        while (word.toString().equals(".") || word.toString().equals("!") || word.toString().equals("?") || word.toString().equals(")") || word.toString().equals("(") || word.toString().equals("\"")){
+        while (word.toString().equals(".") || word.toString().equals(",") || word.toString().equals("!") || word.toString().equals("?") || word.toString().equals(")") || word.toString().equals("(") || word.toString().equals("\"")){
             word_info = this.RandomWordFromStock();
             word = word_info.getValue();
         }
 
         // Choix d'une position pour ajouter le mot
-        int ajout_pos = rand.nextInt(this.stock.size());
+        int ajout_pos = rand.nextInt(this.getStock().size());
         while (ajout_pos == word_pos){
-            ajout_pos = rand.nextInt(this.stock.size());
+            ajout_pos = rand.nextInt(this.getStock().size());
         }
 
         // Ajustement des majuscules en début de mot
@@ -139,14 +179,35 @@ public class Normal {
             getStock().get(0).setCharAt(0, Character.toLowerCase(getStock().get(0).charAt(0)));
         }
 
-        ArrayList<StringBuilder> stock_current = new ArrayList<>(stock);
-
         // Ajout du mot
-        stock_current.add(ajout_pos, word);
-
-        setStock(stock_current);
+        this.addToStock(word, ajout_pos);
         this.calculStr_out();
     }//        - Ajouter un mot
+
+    public void AjouterLettre(AbstractMap.SimpleEntry<Integer, StringBuilder> word_info) {
+        StringBuilder word = word_info.getValue();
+        int lettre_pos = rand.nextInt(word.length());
+        int new_pos = rand.nextInt(word.length());
+
+        while (new_pos == lettre_pos){
+            new_pos = rand.nextInt(word_info.getValue().length());
+        }
+
+
+        if (lettre_pos == 0 && word_info.getKey() == 0){
+            word.insert(new_pos, Character.toLowerCase(word.charAt(lettre_pos)));
+        }
+        else if (new_pos == 0 && word_info.getKey() == 0) {
+            word.insert(new_pos, Character.toUpperCase(word.charAt(lettre_pos)));
+            word.setCharAt(new_pos + 1, Character.toLowerCase(word.charAt(new_pos + 1)));
+        }
+        else {
+            word.insert(new_pos, word.charAt(lettre_pos));
+        }
+
+        this.getStock().set(word_info.getKey(), word);
+        this.calculStr_out();
+    }
 
     public void EchangerMot() {
         // Choix d'un mot dans la phrase
@@ -174,14 +235,45 @@ public class Normal {
             echange.setCharAt(0, Character.toLowerCase(echange.charAt(0)));
         }
 
-        ArrayList<StringBuilder> stock_current = new ArrayList<>(stock);
+        this.addToStock(echange, word_pos);
+        this.getStock().remove(word_pos + 1);
+        this.addToStock(word, echange_pos);
+        this.getStock().remove(echange_pos + 1);
 
-        stock_current.add(word_pos, echange);
-        stock_current.remove(word_pos + 1);
-        stock_current.add(echange_pos, word);
-        stock_current.remove(echange_pos + 1);
+        this.calculStr_out();
+    }
 
-        setStock(stock_current);
+    public void EchangerLettre(AbstractMap.SimpleEntry<Integer, StringBuilder> word_info) {
+        StringBuilder word = word_info.getValue();
+        int lettre_pos = rand.nextInt(word.length());
+        int new_pos = rand.nextInt(word.length());
+
+        while (new_pos == lettre_pos){
+            new_pos = rand.nextInt(word_info.getValue().length());
+        }
+
+        StringBuilder word_current = new StringBuilder(word_info.getValue());
+
+        if (lettre_pos == 0 && word_info.getKey() == 0){
+            word_current.insert(new_pos, Character.toLowerCase(word.charAt(lettre_pos)));
+            word_current.deleteCharAt(lettre_pos + 1);
+            word_current.insert(lettre_pos, Character.toUpperCase(word.charAt(new_pos)));
+            word_current.deleteCharAt(new_pos + 1);
+        }
+        else if (new_pos == 0 && word_info.getKey() == 0) {
+            word_current.insert(new_pos, Character.toUpperCase(word.charAt(lettre_pos)));
+            word_current.deleteCharAt(new_pos + 1);
+            word_current.insert(lettre_pos, Character.toLowerCase(word.charAt(new_pos)));
+            word_current.deleteCharAt(lettre_pos + 1);
+        }
+        else {
+            word_current.insert(new_pos, word.charAt(lettre_pos));
+            word_current.deleteCharAt(new_pos + 1);
+            word_current.insert(lettre_pos, word.charAt(new_pos));
+            word_current.deleteCharAt(lettre_pos + 1);
+        }
+
+        this.getStock().set(word_info.getKey(), word_current);
         this.calculStr_out();
     }
 
@@ -193,9 +285,9 @@ public class Normal {
         int word_pos = word_info.getKey();
 
         // Choix d'une position pour déplacer le mot
-        int new_pos = rand.nextInt(this.stock.size());
+        int new_pos = rand.nextInt(this.getStock().size());
         while (new_pos == word_pos){
-            new_pos = rand.nextInt(this.stock.size());
+            new_pos = rand.nextInt(this.getStock().size());
         }
 
         if (word_pos == 0){
@@ -207,18 +299,48 @@ public class Normal {
             getStock().get(0).setCharAt(0, Character.toLowerCase(getStock().get(0).charAt(0)));
         }
 
-        ArrayList<StringBuilder> stock_current = new ArrayList<>(stock);
 
-        stock_current.add(new_pos, word);
-        if (new_pos > word_pos){
-            stock_current.remove(word_pos);
+        this.getStock().remove(word_pos);
+        this.addToStock(word, new_pos);
+
+        this.calculStr_out();
+    }
+
+    public void DeplacerLettre (AbstractMap.SimpleEntry<Integer, StringBuilder> word_info) {
+        StringBuilder word = word_info.getValue();
+        int lettre_pos = rand.nextInt(word.length());
+        int new_pos = rand.nextInt(word.length());
+
+        StringBuilder word_current = new StringBuilder(word_info.getValue());
+
+        if (lettre_pos == 0 && word_info.getKey() == 0){
+            word_current.deleteCharAt(lettre_pos);
+            word_current.insert(new_pos, Character.toLowerCase(word.charAt(lettre_pos)));
+        }
+        else if (new_pos == 0 && word_info.getKey() == 0) {
+            word_current.deleteCharAt(lettre_pos);
+            word_current.insert(new_pos, Character.toUpperCase(word.charAt(lettre_pos)));
         }
         else {
-            stock_current.remove(word_pos+1);
+            word_current.deleteCharAt(lettre_pos);
+            word_current.insert(new_pos, word.charAt(lettre_pos));
         }
 
-        this.setStock(stock_current);
-        this.calculStr_out();
+        this.getStock().set(word_info.getKey(), word_current);
+        this.calculStr_out();;
+    }
+
+
+
+    public static void main(String[] args) {
+        Normal normal = new Normal("Salut je suis un test");
+        normal.EchangerLettre(normal.RandomWordFromStock());
+        normal.AjouterLettre(normal.RandomWordFromStock());
+        normal.DeplacerLettre(normal.RandomWordFromStock());
+        normal.SupprimerLettre(normal.RandomWordFromStock());
+        normal.DoublageLettre(normal.RandomWordFromStock());
+        normal.DoublageLettre(new AbstractMap.SimpleEntry<>(1, new StringBuilder("Coucou")));
+        normal.DeplacerMot();
     }
 
 }
