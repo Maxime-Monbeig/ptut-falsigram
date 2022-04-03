@@ -11,6 +11,7 @@ public class Main {
         //FalsigramV2 test = new FalsigramV2("/amuhome/m20007035/IdeaProjects/ptut-falsigram/Lorem_ipsum.txt");
         //FalsigramV2 test = new FalsigramV2("C:\\Users\\maxim\\Documents\\IUT INFO\\PTUT\\ptut-falsigram\\Lorem_ipsum.txt");
         //FalsigramV2 test = new FalsigramV2("C:\\Users\\maxim\\Documents\\IUT INFO\\PTUT\\ptut-falsigram\\fichier_test.txt");
+        //C:\Users\cyril\IdeaProjects\ptut-falsigram\Balzac.txt
 
         Scanner scanner = new Scanner(System.in);
         System.out.println("Entrez le chemin complet de votre fichier texte ou une phrase");
