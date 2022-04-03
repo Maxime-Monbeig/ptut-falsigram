@@ -44,14 +44,18 @@ public class Normal {
         int i = 0;
         while (i < str.length()){
             StringBuilder stringBuilder = new StringBuilder();
-            while ( i < str.length() && str.charAt(i) != ' ' && str.charAt(i) != ',' && str.charAt(i) != '.' && str.charAt(i) != '!' && str.charAt(i) != '?' && str.charAt(i) != '(' && str.charAt(i) != ')'){
+            while ( i < str.length() && str.charAt(i) != ' ' && str.charAt(i) != ','
+                                     && str.charAt(i) != '.' && str.charAt(i) != '!'
+                                     && str.charAt(i) != '?' && str.charAt(i) != '(' && str.charAt(i) != ')'){
                 stringBuilder.append(str.charAt(i));
                 ++i;
             }
             if (stringBuilder.length() != 0){
                 this.stock.add(stringBuilder);
             }
-            if (i < str.length() && (str.charAt(i) == '.' || str.charAt(i) == '!' || str.charAt(i) == '?' || str.charAt(i) == ',' || str.charAt(i) == '(' || str.charAt(i) == ')')){
+            if (i < str.length() && (str.charAt(i) == '.' || str.charAt(i) == '!'
+                                 || str.charAt(i) == '?' || str.charAt(i) == ','
+                                 || str.charAt(i) == '(' || str.charAt(i) == ')')){
                 StringBuilder stringBuilder1 = new StringBuilder();
                 stringBuilder1.append(str.charAt(i));
 
@@ -77,7 +81,7 @@ public class Normal {
     }
 
     public AbstractMap.SimpleEntry<Integer, StringBuilder> RandomWordFromStock(){
-        Integer pos = rand.nextInt(this.getStock().size());
+        int pos = rand.nextInt(this.getStock().size());
         return new AbstractMap.SimpleEntry<>(pos, new StringBuilder(getStock().get(pos)));
     }
 
@@ -159,7 +163,9 @@ public class Normal {
         StringBuilder word = new StringBuilder(word_info.getValue());
         int word_pos = word_info.getKey();
 
-        while (word.toString().equals(".") || word.toString().equals(",") || word.toString().equals("!") || word.toString().equals("?") || word.toString().equals(")") || word.toString().equals("(") || word.toString().equals("\"")){
+        while (word.toString().equals(".") || word.toString().equals(",") || word.toString().equals("!")
+                                           || word.toString().equals("?") || word.toString().equals(")")
+                                           || word.toString().equals("(") || word.toString().equals("\"")){
             word_info = this.RandomWordFromStock();
             word = word_info.getValue();
         }

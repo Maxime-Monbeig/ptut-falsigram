@@ -153,8 +153,8 @@ public class Main {
                                             actionNormal.put("3", "déplacer un mot");
                                             System.out.println("4 -> Echanger deux mots");
                                             actionNormal.put("4", "échanger deux mots");
-                                            System.out.println("5 -> Ajouter un mot");
-                                            actionNormal.put("5", "ajouter un mot\n");
+                                            System.out.println("5 -> Ajouter un mot\n");
+                                            actionNormal.put("5", "ajouter un mot");
                                             System.out.println("r -> Revenir à l'écran précédent");
                                             choice_normal_action = scanner.nextLine();
 
@@ -164,7 +164,7 @@ public class Main {
                                                 ArrayList<Character> numbers = new ArrayList<>(Arrays.asList('0', '1', '2', '3', '4', '5', '6', '7', '8', '9'));
                                                 do {
                                                     isANumber = true;
-                                                    System.out.println("\nCombien de fois voulez vous " + actionNormal.get(choice_normal_action) + " ? \n " +
+                                                    System.out.println("\nCombien de fois voulez vous " + actionNormal.get(choice_normal_action) + " ? \n" +
                                                             "Pour annuler le changement mettez \"0\"");
                                                     System.out.print("Nombre de fois : ");
                                                     choice_normal_number = scanner.nextLine();
@@ -238,8 +238,12 @@ public class Main {
                                             System.out.println("\na -> Prendre un mot aléatoirement");
                                             listMots.put("a", new StringBuilder("aléatoire"));
                                             System.out.println("r -> Revenir à l'écran précédent");
-                                            listMots.put("r", new StringBuilder("revenir"));
+                                            //listMots.put("r", new StringBuilder("revenir"));
                                             choice_normal_word = scanner.nextLine();
+
+                                            if (choice_normal_word.equals("r")){
+                                                choice_normal_type = "";
+                                            }
 
                                             if (listMots.containsKey(choice_normal_word)){
                                                 do {
@@ -335,7 +339,7 @@ public class Main {
                                                     }
                                                 } while (!actionNormal.containsKey(choice_normal_action) && !choice_normal_action.equals("r"));
                                             }
-                                        } while (!listMots.containsKey(choice_normal_word));
+                                        } while (!listMots.containsKey(choice_normal_word) && !choice_normal_word.equals("r"));
 
                                         break;
                                     case "i":

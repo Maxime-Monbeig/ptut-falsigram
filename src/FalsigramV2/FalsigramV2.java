@@ -111,6 +111,7 @@ public class FalsigramV2 {
     public String cutStringNormal (String str, int pos){
         String newStr = "";
         newStr = newStr + str.charAt(pos);
+
         while ((str.charAt(pos+1) != '.' &&
                 str.charAt(pos+1) != '!' &&
                 str.charAt(pos+1) != '?' &&
@@ -119,7 +120,7 @@ public class FalsigramV2 {
                 str.charAt(pos+1) != '\r' &&
                 !(str.charAt(pos+1) == '(' && str.charAt(pos+2) == 'S' && str.charAt(pos+3) == 'E'))){
             ++pos;
-            if (!(str.charAt(pos) == ' ' && newStr.charAt(newStr.length() - 1) == ' ')){
+            if (newStr.length() > 0 && !(str.charAt(pos) == ' ' && newStr.charAt(newStr.length() - 1) == ' ')){
                 newStr = newStr + str.charAt(pos);
             }
 
@@ -143,18 +144,20 @@ public class FalsigramV2 {
 
     public void ReadStr(){
         int current = 0;
+        char current_char;
         while (current < getStr().length()){
-            if (getStr().charAt(current) == '<'){
+            current_char = getStr().charAt(current);
+            if (current_char == '<'){
                 String xml_to_add = cutStringXML(getStr(), current);
                 xml.add(new Xml(xml_to_add, false));
                 current = current + xml_to_add.length();
             }
-            else if (getStr().charAt(current) == '('){
+            else if (current_char == '('){
                 String ftb_to_add = cutStringFTB(getStr(), current);
                 ftb.add(new Ftb(ftb_to_add, false));
                 current = current + ftb_to_add.length();
             }
-            else if (getStr().charAt(current) != ' ' && getStr().charAt(current) != '\n' && getStr().charAt(current) != '\r'){
+            else if ((current_char >= 'A' && current_char <= 'Z') || (current_char >= 'a' && current_char <= 'z')){
                 String normal_to_add = cutStringNormal(getStr(), current);
                 normal.add(new Normal(normal_to_add));
                 current = current + normal_to_add.length() - 1;
