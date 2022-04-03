@@ -129,7 +129,7 @@ public class FalsigramV2 {
             newStr = newStr + str.charAt(pos);
         }
 
-        while (str.charAt(pos + 1) == '.'){
+        while (pos+1 < str.length() && str.charAt(pos + 1) == '.'){
             ++pos;
             newStr = newStr + str.charAt(pos);
         }
